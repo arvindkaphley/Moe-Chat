@@ -38,7 +38,7 @@ function onboarding() {
           dispatch({
             type:reducerCases.SET_USER_INFO,
             userInfo:{
-              id:data.id,
+              id:data.user.id,
               name,
               email,
               profileImage:image,
