@@ -10,11 +10,10 @@ export const addMessage = async(req,res,next) => {
                 data:{
                     message,
                     sender:{connect:{id:parseInt(from) } },
-                    receiver :{connect: { id:parseInt(to) } },
+                    reciever :{connect: { id:parseInt(to) } },
                     messageStatus:getUser ? "delivered" : "sent" ,
-                    
                 },
-                include: { sender: true, receiver: true },
+                include: { sender: true, reciever: true },
             });
             return res.status(201).send({ message: newMessage });
         }
@@ -35,11 +34,11 @@ export const getMessages =async(req,res,next) =>{
                 OR:[
                     {
                         senderId: parseInt(from),
-                        receiverId: parseInt(to),
+                        recieverId: parseInt(to),
                     },
                     {
                         senderId: parseInt(to),
-                        receiverId: parseInt(from),
+                        recieverId: parseInt(from),
                     },
                 ],
             },

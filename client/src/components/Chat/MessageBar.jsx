@@ -5,7 +5,7 @@ import { MdSend } from "react-icons/md";
 import { FaMicrophone } from  "react-icons/fa";
 import {useStateProvider } from "@/context/StateContext";
 import axios from "axios";
-import { ADD_MESSAGE_ROUTE } from "@/utils/ApiRoutes";
+import { ADD_MESSAGE_ROUTE } from "@/utils/ApiRoutes.js";
 function MessageBar() {
   const[{userInfo,currentChatUser},dispatch] = useStateProvider()
   const [message,setMessage] = useState("")
