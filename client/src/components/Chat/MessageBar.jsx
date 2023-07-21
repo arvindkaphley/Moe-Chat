@@ -9,7 +9,7 @@ import { ADD_MESSAGE_ROUTE } from "@/utils/ApiRoutes";
 function MessageBar() {
   const[{userInfo,currentChatUser},dispatch] = useStateProvider()
   const [message,setMessage] = useState("")
-  const sendMessage = async()=>{
+  const sendMessage = async()=> {
     try{
       const {data} = await axios.post(ADD_MESSAGE_ROUTE, {
         to:currentChatUser?.id,

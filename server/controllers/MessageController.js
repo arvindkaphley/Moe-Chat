@@ -25,7 +25,7 @@ export const addMessage = async(req,res,next) => {
     }
 };
 
-export const getMessage =async(req,res,next) =>{
+export const getMessages =async(req,res,next) =>{
     try{
         const prisma = getPrismaInstance();
         const { from, to } = req.params;
@@ -61,7 +61,7 @@ export const getMessage =async(req,res,next) =>{
 
         await prisma.messages.updateMany({
             where:{
-                id:{in:unreadMessages}
+                id:{in: unreadMessages}
             }
             ,date:{
                 messageStatus:"read",
