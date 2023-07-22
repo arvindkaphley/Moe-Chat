@@ -48,7 +48,7 @@ export const getMessages =async(req,res,next) =>{
         });
 
         const unreadMessages=[];
-        messages.forEach ((message,index)=>
+        messages.forEach((message,index)=>
         {
             if(message.messageStatus !=="read" && message.senderId===parseInt(to))
             {
@@ -65,7 +65,7 @@ export const getMessages =async(req,res,next) =>{
                 messageStatus:"read",
             },
         });
-        res.status(200).json({ messages });
+        res.status(200).json({ messages }); 
 
 
     }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { BsEmojiSmile } from "react-icons/bs";
 import {ImAttachment} from 'react-icons/im';
 import { MdSend } from "react-icons/md";
@@ -6,16 +6,62 @@ import { FaMicrophone } from  "react-icons/fa";
 import {useStateProvider } from "@/context/StateContext";
 import axios from "axios";
 import { ADD_MESSAGE_ROUTE } from "@/utils/ApiRoutes.js";
+import { reducerCases } from "@/context/constants";
+import EmojiPicker from "emoji-picker-react";
+import PhotoPicker from "../common/PhotoPicker";
 function MessageBar() {
-  const[{userInfo,currentChatUser},dispatch] = useStateProvider()
+  const[{userInfo,currentChatUser, socket},dispatch] = useStateProvider()
   const [message,setMessage] = useState("")
+  const [showEmojiPicker,setShowEmojiPicker]=useState(false)
+  const emojiPickerRef=useRef(null)
+  const [grabPhoto,setGrabPhoto]=useState(false);
+
+  const photoPickerChange =async (e)=>{
+    
+  };
+  
+
+  useEffect(()=>{
+    const handleOutsideClick=(event)=>{
+      if(event.target.id!="emoji-open"){
+        if(emojiPickerRef.current && !emojiPickerRef.current.contains(event.target)){
+          setShowEmojiPicker(false);
+        }
+      }
+    }
+    document.addEventListener("click",handleOutsideClick);
+    return()=>{
+      document.addEventListener("click",handleOutsideClick);
+    };
+  },[]);
+
+  const handleEmojiModal=()=>{
+    setShowEmojiPicker(!showEmojiPicker)
+  }
+
+  const handleEmojiClick=(emoji)=>{
+    setMessage((prevMessage)=>(prevMessage+=emoji.emoji));
+  }
+
+
   const sendMessage = async()=> {
     try{
       const {data} = await axios.post(ADD_MESSAGE_ROUTE, {
         to:currentChatUser?.id,
         from:userInfo?.id,
         message,
-
+      });
+      socket.current.emit("send-msg",{
+        to:currentChatUser?.id,
+        from:userInfo?.id,
+        message:data.message,
+      });
+      dispatch({
+        type:reducerCases.ADD_MESSAGE,
+        newMessage:{
+          ...data.message
+        },
+        fromSelf: true,
       });
       setMessage(""); 
     }
@@ -24,13 +70,33 @@ function MessageBar() {
     }
   };
 
+  useEffect(()=>{
+    if(grabPhoto){
+      const data=document.getElementById("photo-picker");
+      data.click();
+      document.body.onFocus = (e)=>{
+        setTimeout(()=>{
+          setGrabPhoto(false);
+        },1000);
+      };
+    }
+  },[grabPhoto]);
+
   return (<div className="bg-panel-header-background h-20 px-4 flex items-center gap-6 relative">
     <>
     <div className="flex gap-6">
       <BsEmojiSmile className="text-panel-header-icon cursor-pointer text-xl"
-      title="Emoji"/>
+      title="Emoji"
+      id="emoji-open"
+      onClick={handleEmojiModal}
+      />
+      {showEmojiPicker && <div className="absolute bottom-24 left-16 z-40"
+      ref={emojiPickerRef}>
+        <EmojiPicker onEmojiClick={handleEmojiClick} theme="dark"/></div>}
       <ImAttachment className="text-panel-header-icon cursor-pointer text-xl"
-      title="Attach File"/>
+      title="Attach File"
+      onClick={()=>setGrabPhoto(true)}
+      />
     </div>
     <div className="w-full rounded-lg h-10 flex items-center">
       <input type="text" 
@@ -46,18 +112,13 @@ function MessageBar() {
         title="Send Message"
         onClick={sendMessage}
         />
-<<<<<<< HEAD
-        {<FaMicrophone 
+        {/* <FaMicrophone 
         className="text-panel-header-icon cursor-pointer text-xl"
-        title="Record"/> }
-=======
-        <FaMicrophone 
-        className="text-panel-header-icon cursor-pointer text-xl"
-        title="Record"/>
->>>>>>> 3c6321cbfc53c250c003c6a63d23338f8953d417
+        title="Record"/> */}
       </button>
     </div>
     </>
+  {grabPhoto && <PhotoPicker onChange={photoPickerChange}/>}
   </div>);
 }
 
