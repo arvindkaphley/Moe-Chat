@@ -46,9 +46,9 @@ function MessageBar() {
         title="Send Message"
         onClick={sendMessage}
         />
-        {/* <FaMicrophone 
+        <FaMicrophone 
         className="text-panel-header-icon cursor-pointer text-xl"
-        title="Record"/> */}
+        title="Record"/>
       </button>
     </div>
     </>
