@@ -46,9 +46,15 @@ function MessageBar() {
         title="Send Message"
         onClick={sendMessage}
         />
+<<<<<<< HEAD
         {<FaMicrophone 
         className="text-panel-header-icon cursor-pointer text-xl"
         title="Record"/> }
+=======
+        <FaMicrophone 
+        className="text-panel-header-icon cursor-pointer text-xl"
+        title="Record"/>
+>>>>>>> 3c6321cbfc53c250c003c6a63d23338f8953d417
       </button>
     </div>
     </>
