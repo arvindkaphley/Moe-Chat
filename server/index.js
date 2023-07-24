@@ -13,6 +13,7 @@ const app=express();
 app.use(cors());
 app.use(express.json());
 
+app.use("/uploads/images",express.static("uplaods/images"));
 app.use("/api/auth",AuthRoutes)
 app.use("/api/messages",MessageRoutes)
 
@@ -29,7 +30,7 @@ const io=new Server(server,{
 global.onlineUsers = new Map(); 
 
 io.on("connection",(socket)=>{
-    global.cahtSocket =socket;
+    global.chatSocket =socket;
     socket.on("add-user",(userId)=>{
         onlineUsers.set(userId,socket.id);
     });

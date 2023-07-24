@@ -5,19 +5,52 @@ import { MdSend } from "react-icons/md";
 import { FaMicrophone } from  "react-icons/fa";
 import {useStateProvider } from "@/context/StateContext";
 import axios from "axios";
-import { ADD_MESSAGE_ROUTE } from "@/utils/ApiRoutes.js";
+import { ADD_IMAGE_MESSAGE_ROUTE, ADD_MESSAGE_ROUTE } from "@/utils/ApiRoutes.js";
 import { reducerCases } from "@/context/constants";
 import EmojiPicker from "emoji-picker-react";
 import PhotoPicker from "../common/PhotoPicker";
+import CaptureAudio from "../common/CaptureAudio";
 function MessageBar() {
   const[{userInfo,currentChatUser, socket},dispatch] = useStateProvider()
   const [message,setMessage] = useState("")
   const [showEmojiPicker,setShowEmojiPicker]=useState(false)
   const emojiPickerRef=useRef(null)
   const [grabPhoto,setGrabPhoto]=useState(false);
+  const[showAudioRecorder, setShowAudioRecorder] = useState(false);
 
   const photoPickerChange =async (e)=>{
-    
+    const file = e.target.files[0];
+    try{
+      const file = e.target.files[0];
+      const formData = new FormData();
+      formData.append("image",file);
+      const response = await axios.post(ADD_IMAGE_MESSAGE_ROUTE, formData,{
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        params:{
+          from:userInfo.id,
+          to:currentChatUser.id,
+        },
+    });
+    if(response.status===201){
+      socket.current.emit("send-msg",{
+        to:currentChatUser?.id,
+        from:userInfo?.id,
+        message:response.data.message,
+      });
+      dispatch({
+        type:reducerCases.ADD_MESSAGE,
+        newMessage:{
+          ...response.data.message
+        },
+        fromSelf: true,
+      });
+    }
+  }  
+    catch(err){
+      console.log(err);
+    }
   };
   
 
@@ -83,7 +116,9 @@ function MessageBar() {
   },[grabPhoto]);
 
   return (<div className="bg-panel-header-background h-20 px-4 flex items-center gap-6 relative">
-    <>
+    {
+      !showAudioRecorder && (
+        <>
     <div className="flex gap-6">
       <BsEmojiSmile className="text-panel-header-icon cursor-pointer text-xl"
       title="Emoji"
@@ -107,18 +142,27 @@ function MessageBar() {
     </div>
     <div className="flex w-10 items-center justify-center">
       <button>
+      {
+      message.length?(
         <MdSend 
         className="text-panel-header-icon cursor-pointer text-xl"
         title="Send Message"
         onClick={sendMessage}
-        />
-        {/* <FaMicrophone 
+        />):(
+        <FaMicrophone 
         className="text-panel-header-icon cursor-pointer text-xl"
-        title="Record"/> */}
-      </button>
-    </div>
+        title="Record"
+        onClick={() => setShowAudioRecorder(true)} 
+        />
+        )}
+        </button>
+        </div>
     </>
+  )}
   {grabPhoto && <PhotoPicker onChange={photoPickerChange}/>}
+  {
+    showAudioRecorder && <CaptureAudio hide={setShowAudioRecorder}/>
+  }
   </div>);
 }
 
