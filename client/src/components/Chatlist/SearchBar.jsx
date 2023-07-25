@@ -3,8 +3,8 @@ import {BiSearchAlt2} from 'react-icons/bi'
 import { BsFilter } from "react-icons/bs";
 
 function SearchBar() {
-  return (<div className="bg-search-input-container-background flex py-3 pl-5 items-center gap-3 h-14">
-
+  return (
+  <div className="bg-search-input-container-background flex py-3 pl-5 items-center gap-3 h-14">
     <div className="bg-panel-header-background flex items-center gap-5 px-3 py-1 round-1g flex-grow">
     <div>
       <BiSearchAlt2 
