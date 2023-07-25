@@ -103,7 +103,7 @@ export const addImageMessage = async(req,res,next) =>{
     catch(err){
         next(err);
     }
-}
+};
 
 export const addAudioMessage = async(req,res,next) =>{
     try{
@@ -133,4 +133,4 @@ export const addAudioMessage = async(req,res,next) =>{
     catch(err){
         next(err);
     }
-}
+};

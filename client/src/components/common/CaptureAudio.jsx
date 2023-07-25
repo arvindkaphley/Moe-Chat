@@ -1,5 +1,6 @@
 import { useStateProvider } from "@/context/StateContext";
 import { reducerCases } from "@/context/constants";
+import { ADD_AUDIO_MESSAGE_ROUTE } from "@/utils/ApiRoutes";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { FaMicrophone,  FaPauseCircle, FaPlay, FaStop, FaTrash } from "react-icons/fa";
@@ -55,7 +56,9 @@ function CaptureAudio({hide}) {
       setIsPlaying(false);
     })
 
-    return wavesurfer.destroy();
+    return ()=>{
+      wavesurfer.destroy();
+    };
   },[]);
 
 
@@ -138,7 +141,7 @@ function CaptureAudio({hide}) {
 
   const handlePauseRecodring =()=>{
     waveform.stop();
-    recordedAudio.play();
+    recordedAudio.pause();
     setIsPlaying(true);
   }
 
@@ -181,8 +184,8 @@ function CaptureAudio({hide}) {
     const minutes = Math.floor(time / 60);
     const seconds = Math.floor(time % 60);
     return `${minutes.toString().padStart(2,"0")}:${seconds
-    .toString()
-    .padStart()}`;
+      .toString()
+      .padStart()}`;
   };
 
   return(
