@@ -7,7 +7,8 @@ import MessageStatus from "../common/MessageStatus";
 function ImageMessage({message}) {
   const [{currentChatUser,userInfo}] = useStateProvider();
 
-  return <div className={`p-1 rounded-lg ${message.senderId===currentChatUser.id ? "bg-incoming-background" : "bg-outgoing-background"}`}>
+  return (
+  <div className={`p-1 rounded-lg ${message.senderId===currentChatUser.id ? "bg-incoming-background" : "bg-outgoing-background"}`}>
     <div className="relative">
       <Image src={`${HOST}/${message.message}`}
       className="rounded-lg"
@@ -27,6 +28,7 @@ function ImageMessage({message}) {
     </div>
     </div>
     </div>
+  )
 }
 
 export default ImageMessage;

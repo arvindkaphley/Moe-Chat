@@ -3,6 +3,9 @@ import { calculateTime } from "@/utils/CalculateTime";
 import React from "react";
 import MessageStatus from "../common/MessageStatus";
 import ImageMessage from "./ImageMessage";
+import dynamic from "next/dynamic";
+
+const VoiceMessage =dynamic(()=>import("./VoiceMessage"),{ssr:false} ) ;
 
 function ChatContainer() {
 
@@ -14,17 +17,19 @@ function ChatContainer() {
       <div className="mx-10 my-6 relative bottom-0 z-40 left-0">
       <div className="flex w-full">
         <div className="flex flex-col justify-end w-full gap-1 overflow-auto">
-        {messages.map((message,index)=> (<div key={index} 
-        className={`flex ${message?.senderId === currentChatUser.id
-        ?"justify-start"
-        :"justify-end"
+        {messages.map((message,index)=> (
+        <div key={message.id} 
+        className={`flex ${message.senderId === currentChatUser.id
+          ?"justify-start"
+          :"justify-end"
         }`}>
-          {message?.type==="text"&& (
-            <div className={`text-white px-2 py-[5px] tex-sm rounded-md flex gap-2 items-end max-w-[45%] 
-            ${message.senderId === currentChatUser.id 
-            ? "bg-incoming-background" 
-            : "bg-outgoing-background"
-            }`}
+          {message.type==="text"&& (
+            <div 
+              className={`text-white px-2 py-[5px] tex-sm rounded-md flex gap-2 items-end max-w-[45%] 
+              ${message.senderId === currentChatUser.id 
+              ? "bg-incoming-background" 
+              : "bg-outgoing-background"
+              }`}
             > 
               <span className="break-all">{message.message}</span>
               <div className="flex gap-1 items-end">
@@ -38,6 +43,7 @@ function ChatContainer() {
             </div>
           )}
           {message.type==="image" && <ImageMessage message={message}/>}
+          {message.type==="audio" && <VoiceMessage message={message}/>}
           </div>
           ))}
 

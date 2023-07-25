@@ -13,6 +13,7 @@ const app=express();
 app.use(cors());
 app.use(express.json());
 
+app.use("/uploads/recordings",express.static("uplaods/recordings"));
 app.use("/uploads/images",express.static("uplaods/images"));
 app.use("/api/auth",AuthRoutes)
 app.use("/api/messages",MessageRoutes)
