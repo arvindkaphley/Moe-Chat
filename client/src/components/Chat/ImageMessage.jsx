@@ -5,7 +5,7 @@ import { calculateTime } from "@/utils/CalculateTime";
 import MessageStatus from "../common/MessageStatus";
 import Image from "next/image";
 
-function ImageMessage({message}) {
+function ImageMessage({message}){
   const [{currentChatUser,userInfo}] = useStateProvider();
 
   return (

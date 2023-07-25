@@ -5,7 +5,7 @@ import Avatar from "../common/Avatar";
 import { FaPlay, FaStop } from "react-icons/fa";
 import { calculateTime } from "@/utils/CalculateTime";
 import MessageStatus from "../common/MessageStatus";
-
+import { HOST } from "@/utils/ApiRoutes";
 function VoiceMessage({message}) {
 
   const [{currentChatUser,userInfo}] =useStateProvider();

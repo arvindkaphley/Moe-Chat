@@ -21,7 +21,7 @@ function ChatHeader() {
       <MdCall className="text-panel-header-icon cursor-pointer text-xl" />
       <IoVideocam className="text-panel-header-icon cursor-pointer text-xl"/>
       <BiSearchAlt2 className="text-panel-header-icon cursor-pointer text-xl" 
-      onclick={()=>dispatch({type:reducerCases.SET_MESSAGES_SEARCH})}/>
+      onClick={()=>dispatch({type:reducerCases.SET_MESSAGES_SEARCH})}/>
       <BsThreeDotsVertical className="text-panel-header-icon cursor-pointer text-xl"/>
     </div>
   </div>);
