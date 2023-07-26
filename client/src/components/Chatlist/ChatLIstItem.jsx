@@ -19,16 +19,16 @@ function ChatLIstItem({data, isContactPage=false}) {
             profilePicture: data.profilePicture,
             email: data.email,
             id: userInfo.id === data.senderId ? data.recieverId : data.senderId,
-          },
-        });
-      }
-      else{
-        dispatch({
-          type: reducerCases.CHANGE_CURRENT_CHAT_USER,
-          user: { ...data },
-        });
-        dispatch({type:reducerCases.SET_ALL_CONTACTS_PAGE});
-      }
+            },
+          });
+        }
+        else{
+          dispatch({
+            type: reducerCases.CHANGE_CURRENT_CHAT_USER,
+            user: { ...data },
+          });
+          dispatch({type:reducerCases.SET_ALL_CONTACTS_PAGE});
+        }
     //}
   }
   return <div className="flex cursor-pointer items-center hover:bg-background-default-hover"
