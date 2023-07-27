@@ -59,7 +59,6 @@ io.on("connection",(socket) => {
 
     socket.on("outgoing-video-call",(data)=>{
         const sendUserSocket = onlineUsers.get(data.to);
-        console.log("outgoingcall",data,sendUserSocket);
         if(sendUserSocket){
             socket.to(sendUserSocket).emit("incoming-video-call",
             {
