@@ -37,7 +37,7 @@ function ChatContainer() {
                   {calculateTime(message.createdAt)}
                 </span>
                 <span>
-                  {message.senderId === userInfo.id && <MessageStatus MessageStatus={message.messageStatus}/>}
+                  {message.senderId === userInfo.id && <MessageStatus messageStatus={message.messageStatus}/>}
                 </span>
               </div>
             </div>

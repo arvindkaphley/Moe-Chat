@@ -49,11 +49,11 @@ const reducer=(state,action) =>{
             return{
                 ...state,
                 socket:action.socket,
-            }
+            };
         case reducerCases.ADD_MESSAGE:
             return{
                 ...state,
-                messages:[...state.messages,action.message],
+                messages:[...state.messages,action.newMessage],
             };
         case reducerCases.SET_MESSAGES_SEARCH:
             return{
